@@ -6,6 +6,7 @@ import jsPDF from 'jspdf';
 import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
 import {Observable, of, Subject, merge} from 'rxjs';
 import {NgbAccordionConfig, NgbTypeahead} from '@ng-bootstrap/ng-bootstrap';
+import {Card} from "../../models/card";
 
 interface Option {
   name: any;
@@ -23,6 +24,7 @@ export class DriverComponent implements OnInit {
   test1 = true;
   pendingMessage = '';
   pendingMessageColour = '';
+  cards: Card[];
   link = '';
   imgBase64;
   PMTempFail = true;
@@ -83,6 +85,10 @@ export class DriverComponent implements OnInit {
       this.pendingMessage = 'Your last Proposal was Approved';
       this.pendingMessageColour = 'alert-success';
     }
+    this.cards = [
+      {remaining: 0, name: 'Kit Card', quantity: 20, id: '1231563', cost: '47', item: '50', sale: '48'},
+      {remaining: 0, name: 'Kit Card', quantity: 20, id: '2458676', cost: '900', item: '1000', sale: '930'}
+    ];
 
     this.expenses.push({expense: '', amount: null});
   }
@@ -135,8 +141,8 @@ export class DriverComponent implements OnInit {
 
   // validation in end stock modal table
   valueChanged1(e) {
-    if (e.remaining > e.qty) {
-      e.remaining = e.qty;
+    if (e.remaining > e.quantity) {
+      e.remaining = e.quantity;
     }
   }
 
@@ -147,7 +153,7 @@ export class DriverComponent implements OnInit {
     const date = dateFormat(now, 'mmmm dS, yyyy, h:MM:ss TT');
 
     const endStock: EndStock = {} as EndStock;
-    endStock.remainingStock = this.Rlist;
+    endStock.remainingStock = this.cards;
     endStock.banks = this.bankList;
     endStock.remainingCash = form.value.remainingCash;
     endStock.expenses = this.expenses;

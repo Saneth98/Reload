@@ -4,4 +4,6 @@ export interface Card {
   item: any;
   sale: any;
   id: any;
+  quantity: number;
+  remaining: number;
 }

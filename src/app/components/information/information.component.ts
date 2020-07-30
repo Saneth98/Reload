@@ -43,8 +43,8 @@ export class InformationComponent implements OnInit {
     ];
 
     this.cards = [
-      {name: 'Kit Card', id: '1231563', cost: '47', item: '50', sale: '48'},
-      {name: 'Kit Card', id: '2458676', cost: '900', item: '1000', sale: '930'}
+      {remaining: 0, quantity: 0, name: 'Kit Card', id: '1231563', cost: '47', item: '50', sale: '48'},
+      {remaining: 0, quantity: 0, name: 'Kit Card', id: '2458676', cost: '900', item: '1000', sale: '930'}
     ];
   }
 

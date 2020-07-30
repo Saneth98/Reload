@@ -40,7 +40,7 @@
     <div class="col-md-6 ">
       <div class="container">
         <button i18n="@@driverEndStock" type="button" data-toggle="modal" data-target="#endModal"
-                class="btn btn-danger">End Stock
+                class="btn btn-success">End Stock
         </button>
       </div>
     </div>
@@ -116,16 +116,18 @@
                     <tr>
                       <th i18n="@@driverCardNo" scope="col">Card Name</th>
                       <th i18n="@@driverCardQty" scope="col">Quantity</th>
+                      <th i18n="@@driverCardTotal" scope="col">Total</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor=" let option of Rlist; let i=index">
-                      <th scope="row">{{option.name}}</th>
-                      <td><input [ngClass]="{btnRedClass: option.qty < count1.value}" class="inputQty"
+                    <tr *ngFor=" let option of cards; let i=index">
+                      <td scope="row">{{option.name}}</td>
+                      <td><input [ngClass]="{btnRedClass: option.quantity < count1.value}" class="inputQty"
                                  (change)="valueChanged1(option)" type="number"
                                  [(ngModel)]="option.remaining" required name="remcount_{{i}}" #count1="ngModel" min="0"
-                                 max="{{option.qty}}">
+                                 max="{{option.quantity}}">
                       </td>
+                      <td></td>
                     </tr>
                     </tbody>
                   </table>
@@ -214,13 +216,14 @@
             <input type="number" class="form-control" name="remainingCash" ngModel>
           </div>
 
-          <div class="modal-footer">
-            <div class="row">
-              <button type="button" i18n="@@driverModalClose" id="btntoggle" class="btn btn-secondary col-md-6 col-6"
+          <div class="modal-footer ">
+            <div class="row footerEndStock">
+              <button type="button" i18n="@@driverModalClose" id="btntoggle" class="btn btn-secondary col-md-5 col-6"
                       data-dismiss="modal">Close
               </button>
+              <div class="col-md-2"></div>
               <button type="submit" i18n="@@driverModalSave" [disabled]="endForm.invalid || endForm.pending"
-                      class="btn btn-primary col-md-6 col-6">Save changes
+                      class="btn btn-success col-md-5 col-6">Save changes
               </button>
             </div>
           </div>

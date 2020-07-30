@@ -76,6 +76,10 @@
         <source>Bank Slip Number</source>
         <target>බැංකු ස්ලිප් අංකය</target>
       </trans-unit>
+      <trans-unit id="driverCardTotal" datatype="html">
+        <source>Total</source>
+        <target>එකතුව</target>
+      </trans-unit>
       <trans-unit id="driverModalBanked" datatype="html">
         <source>Banked Details</source>
         <target>බැංකු විස්තර</target>

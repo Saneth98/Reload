@@ -1,0 +1,11 @@
+$zindex-modal: 1050 !default;
+
+$zindex-modal-secondary-backdrop: $zindex-modal + 1 !default;
+$zindex-modal-secondary: $zindex-modal + 2 !default;
+
+.modal-secondary-backdrop {
+  z-index: $zindex-modal-secondary-backdrop;
+}
+.modal-secondary {
+  z-index: $zindex-modal-secondary;
+}
