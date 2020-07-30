@@ -1,0 +1,361 @@
+<div class="alert {{pendingMessageColour}} alert-dismissible fade show" role="alert">
+  {{pendingMessage}} to resubmit
+  <a href="#" i18n="@@driverAlertClick" [hidden]="!PMTempFail" class="alert-link">Click Here</a>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="container">
+  <div class="box">
+    <h4 i18n="@@driverCardTableName">Current Stock</h4>
+    <div class="container-fluid">
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th i18n="@@driverCardNo" scope="col">Card Name</th>
+          <th i18n="@@driverCardQty" scope="col">Quantity</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor=" let option of list; let i=index">
+          <th scope="row">{{option.name}}</th>
+          <td>{{option.qty}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="btn-row container">
+  <div class="row">
+    <div class="col-md-6 ">
+      <div class="container">
+        <button i18n="@@driverNewStock" type="button" data-toggle="modal" data-target="#buyModal"
+                class="btn btn-primary">Buy New Stock
+        </button>
+      </div>
+    </div>
+    <div class="col-md-6 ">
+      <div class="container">
+        <button i18n="@@driverEndStock" type="button" data-toggle="modal" data-target="#endModal"
+                class="btn btn-danger">End Stock
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="buyModal" tabindex="1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" i18n="@@driverAddModalTitle">Select Quantity</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered">
+          <thead>
+          <tr>
+            <th i18n="@@driverCardNo" scope="col">Card Name</th>
+            <th i18n="@@driverCardQty" scope="col">Quantity</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor=" let option of list; let i=index">
+            <th scope="row">{{option.name}}</th>
+            <td><input [ngClass]="{btnRedClass: option.qty < count.value}" class="inputQty"
+                       (change)="valueChanged(option)" type="number"
+                       [(ngModel)]="option.bought" name="count" #count="ngModel" min="0" max="{{option.qty}}">
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" i18n="@@driverModalClose" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" i18n="@@driverModalSave" (click)="buyStock()" data-dismiss="modal"
+                class="btn btn-primary">Save changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="endModal" data-dismiss="modal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div id="modalOneContent" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" i18n="@@driverEndModalTitle">End Stock</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #endForm="ngForm" (ngSubmit)="stockEndSubmit(endForm)">
+          <ngb-accordion activeIds="toggle-1" #acc="ngbAccordion">
+            <ngb-panel id="toggle-1">
+              <!--                <label i18n="@@driverModalRemainStock">Today's Stock</label>-->
+              <ng-template ngbPanelHeader let-opened="opened">
+                <div class="d-flex align-items-center justify-content-between">
+                  <button i18n="@@driverModalRemainStock" ngbPanelToggle class="btn btn-link p-0">Today's Stock</button>
+                </div>
+              </ng-template>
+              <ng-template ngbPanelContent>
+                <div class="form-group">
+                  <table class="table table-bordered ">
+                    <thead>
+                    <tr>
+                      <th i18n="@@driverCardNo" scope="col">Card Name</th>
+                      <th i18n="@@driverCardQty" scope="col">Quantity</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor=" let option of Rlist; let i=index">
+                      <th scope="row">{{option.name}}</th>
+                      <td><input [ngClass]="{btnRedClass: option.qty < count1.value}" class="inputQty"
+                                 (change)="valueChanged1(option)" type="number"
+                                 [(ngModel)]="option.remaining" required name="remcount_{{i}}" #count1="ngModel" min="0"
+                                 max="{{option.qty}}">
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ng-template>
+            </ngb-panel>
+            <ngb-panel id="toggle-2">
+              <ng-template ngbPanelHeader let-opened="opened">
+                <div class="d-flex align-items-center justify-content-between">
+                  <button i18n="@@driverModalBanked" ngbPanelToggle class="btn btn-link p-0">Banked details</button>
+                </div>
+              </ng-template>
+              <ng-template ngbPanelContent>
+                <div class="form-group">
+                  <select required ngModel name="district" class="form-control">
+                    <option *ngFor="let bank of bankList; let i = index">{{bank.name}}</option>
+                  </select>
+
+                </div>
+                <div *ngFor="let option of bankList; let i = index" class="form-row bankList">
+                  <div class="form-group col-md-6 col-sm-12">
+                    <div class="form-check">
+                      <input class="form-check-input" ngModel type="checkbox" value="" #val="ngModel"
+                             name="bankName_{{i}}"
+                             id="defaultCheck1_{{i}}">
+                      <label class="form-check-label" for="defaultCheck1_{{i}}">
+                        {{option.name}}
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-12">
+                    <input type="number" class="form-control" placeholder="Banked Amount" [disabled]="!val.value"
+                           [(ngModel)]="option.amount" required maxlength="5" name="bankAmount_{{i}}" ngModel>
+                  </div>
+                  <div class="form-group col-md-12 col-sm-12">
+                    <input type="number" class="form-control" placeholder="Banked Slip Number" [disabled]="!val.value"
+                           [(ngModel)]="option.slipNo" required name="slip_{{i}}" ngModel>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-panel>
+            <ngb-panel id="toggle-3">
+              <ng-template ngbPanelHeader let-opened="opened">
+                <div class="d-flex align-items-center justify-content-between">
+                  <button i18n="@@driverModalExpenses" ngbPanelToggle class="btn btn-link p-0">Expenses</button>
+                </div>
+              </ng-template>
+              <ng-template ngbPanelContent>
+                <div class="form-group">
+                  <div *ngFor="let expense of expenses; let i = index;">
+                    <div class="form-row">
+                      <div class="form-group col-md-7 col-sm-12">
+                        <input id="typeahead-template" name="{{i}}_name" type="text" class="form-control"
+                               [(ngModel)]="expense.expense" [ngbTypeahead]="search" placeholder="Select Expense"
+                               (focus)="focus.next($any($event).target.value)"
+                               (click)="click.next($any($event).target.value);"/>
+                      </div>
+                      <div class="form-group col-md-5 col-sm-12">
+                        <input placeholder="Enter Amount" class="form-control" name="{{i}}_value" required
+                               [disabled]="!expense.expense" type="number" [(ngModel)]="expense.amount"/>
+                      </div>
+                    </div>
+                  </div>
+                  <button type="button" (click)="addNewExpense()" class="btn btn-secondary">Add Expense +</button>
+                </div>
+              </ng-template>
+            </ngb-panel>
+
+            <ngb-panel id="toggle-4">
+              <ng-template ngbPanelHeader let-opened="opened">
+                <div class="d-flex align-items-center justify-content-between">
+                  <button i18n="@@driverModalNotes" ngbPanelToggle class="btn btn-link p-0">Notes</button>
+                </div>
+              </ng-template>
+              <ng-template ngbPanelContent>
+                <div class="form-group">
+                  <textarea class="form-control" name="notes" ngModel rows="3"></textarea>
+                </div>
+              </ng-template>
+            </ngb-panel>
+          </ngb-accordion>
+
+
+          <div class="form-group">
+            <label i18n="@@driverModalRemainCash">Balance Due</label>
+            <input type="number" class="form-control" name="remainingCash" ngModel>
+          </div>
+
+          <div class="modal-footer">
+            <div class="row">
+              <button type="button" i18n="@@driverModalClose" id="btntoggle" class="btn btn-secondary col-md-6 col-6"
+                      data-dismiss="modal">Close
+              </button>
+              <button type="submit" i18n="@@driverModalSave" [disabled]="endForm.invalid || endForm.pending"
+                      class="btn btn-primary col-md-6 col-6">Save changes
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!--<form class="example-form">-->
+<!--  <br><br><br><br><br><br><br><br>-->
+
+<!--  <mat-form-field class="example-full-width">-->
+<!--    <mat-label>Assignee</mat-label>-->
+<!--    <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">-->
+<!--    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">-->
+<!--      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">-->
+<!--        {{option.name}}-->
+<!--      </mat-option>-->
+<!--    </mat-autocomplete>-->
+<!--  </mat-form-field>-->
+<!--</form>-->
+<!-- Modal -->
+<div class="modal fade" id="summaryModal" tabindex="1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" i18n="@@driverSummaryModalTitle">Summary</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="stockEnd" id="pdfTable" #pdfTable>
+
+          <h6>Date : <span class="summaryText"> {{stockEnd.date}} </span></h6>
+          <h6>Name : <span class="summaryText"> {{userName}} </span></h6>
+          <br>
+          <h6>Balance Due : <span class="summaryText"> {{stockEnd.remainingCash}}</span></h6>
+          <br>
+          <div *ngFor="let option of bankList">
+            <div *ngIf="option.amount" class="bankList">
+              <h6 *ngIf="option.amount">Bank Name : <span class="summaryText"> {{option.name}} </span></h6>
+              <h6 *ngIf="option.amount">Banked Amount : <span class="summaryText"> {{option.amount}} </span></h6>
+              <h6 *ngIf="option.slipNo">Banked Slip Number : <span class="summaryText"> {{option.slipNo}} </span></h6>
+            </div>
+          </div>
+          <br>
+          <h6>Expenses :</h6>
+          <table class="table table-bordered">
+            <thead>
+            <tr>
+              <th i18n="@@driverCardNo" scope="col">Expenses</th>
+              <th i18n="@@driverCardQty" scope="col">Amount</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor=" let option of stockEnd.expenses; let i=index">
+              <td scope="row">{{option.expense}}</td>
+              <td scope="row">{{option.amount}}</td>
+            </tr>
+            </tbody>
+          </table>
+          <br>
+          <h6>Today's Sale : </h6>
+          <table class="table table-bordered">
+            <thead>
+            <tr>
+              <th i18n="@@driverCardNo" scope="col">Card Name</th>
+              <th i18n="@@driverCardQty" scope="col">Quantity</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor=" let option of stockEnd.remainingStock; let i=index">
+              <td scope="row">{{option.name}}</td>
+              <td scope="row">{{option.remaining}}</td>
+            </tr>
+            </tbody>
+          </table>
+          <h6>Notes : </h6><span class="summaryText"> {{stockEnd.notes}} </span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" i18n="@@driverModalClose" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" i18n="@@driverModalConfirm" (click)="confirmSale()" data-dismiss="modal"
+                class="btn btn-primary">Confirm
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--<div *ngIf="stockEnd"  id="pdfTable" #pdfTable>-->
+
+<!--  <h6>Date : {{stockEnd.date}} </h6>-->
+<!--  <h6>Name : {{userName}}</h6>-->
+<!--  <br><br>-->
+
+<!--  <h6>Remaining Cash : {{stockEnd.remainingCash}}</h6>-->
+<!--  <h6>Expenses : {{stockEnd.expenses}}</h6>-->
+<!--  <br><br>-->
+
+<!--  <h6>Remaining Stock : </h6>-->
+
+<!--  <table class="table table-bordered table-responsive-sm">-->
+<!--    <thead>-->
+<!--    <tr>-->
+<!--      <th i18n="@@driverCardNo" scope="col">Card Name</th>-->
+<!--      <th i18n="@@driverCardQty" scope="col">Quantity</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+<!--    <tbody>-->
+<!--    <tr *ngFor=" let option of stockEnd.remainingStock; let i=index">-->
+<!--      <td scope="row">{{option.name}}</td>-->
+<!--      <td scope="row">{{option.remaining}}</td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--  </table>-->
+
+<!--  <h6>Bank Slip Number : {{stockEnd.bankSlipNo}}</h6>-->
+<!--  <h6>Bank Slip Image : </h6>-->
+<!--&lt;!&ndash;  <img [src]="imgURL" height="200">&ndash;&gt;-->
+
+<!--&lt;!&ndash;  <img src="../../../assets/1.png" height="797" width="557"/>&ndash;&gt;-->
+<!--</div>-->
+
+<!--<div>-->
+<!--  <button (click)="downloadAsPDF()">Export To PDF</button>-->
+<!--</div>-->
+<!--<img [src]="imgURL" height="200" *ngIf="imgURL">-->
+<!--<input type="file" alife-file-to-base64 (onFileChanged)="onFileChanges($event)" />-->
+<!--<input (click)="acc.toggle('toggle-2')" ngModel #inp required name="input">-->
+<!--<label [hidden]="!inp.value" >asdasdas</label>-->
+
+
+<!--<button class="btn btn-sm btn-outline-primary mr-2" (click)="acc.toggle('toggle-1')">Toggle first</button>-->
+<!--<button class="btn btn-sm btn-outline-primary mr-2" (click)="test()">Toggle second</button>-->
+<button type="button" id="modalToggle" hidden data-toggle="modal" data-target="#summaryModal">
+</button>

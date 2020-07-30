@@ -1,0 +1,191 @@
+<div class="row">
+<!--  City List-->
+  <div class="col-md-3">
+    <div class="container">
+      <div class="box-driver">
+        <div class="form-row">
+          <div class="col-md-3 col-6">
+            <button data-toggle="modal" data-target="#addmodal" (click)="formAction = 'Add';formName = 'City'"
+                    type="button" class="btn-sm btn-secondary">Add City
+            </button>
+          </div>
+          <div class="col-md-4 col-6">
+            <h5>Cities</h5>
+          </div>
+          <br><br>
+          <input type="text" class="form-control col-md-3 col-sm-1" placeholder="Search"
+                 [(ngModel)]="filterCity">
+        </div>
+        <br>
+        <div class="list-group  driver-list ">
+          <div *ngFor="let city of cities | filter:'name' :filterCity; let i = index;">
+            <div class="form-row list-group-item list-group-item-action">
+              <a class="name-action col-md-3 ">{{city.name}}</a>
+              <span class="col-md-3">
+            <a data-toggle="modal" data-target="#addmodal" class="actions-edit actions"
+               (click)="editCity(city);formName = 'City';formAction = 'Edit'">Edit </a>
+            <a class="actions" (click)="deleteCity(city)"> Delete</a>
+          </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!--  Bank List-->
+  <div class="col-md-3">
+    <div class="container">
+      <div class="box-driver">
+        <div class="form-row">
+          <div class="col-md-3 col-6">
+            <button data-toggle="modal" data-target="#addmodal" (click)="formAction = 'Add';formName = 'Bank'"
+                    type="button" class="btn-sm btn-secondary">Add Bank
+            </button>
+          </div>
+          <div class="col-md-4 col-6">
+            <h5>Banks</h5>
+          </div>
+          <br><br>
+          <input type="text" class="form-control col-md-3 col-sm-1" placeholder="Search"
+                 [(ngModel)]="filterBank">
+        </div>
+        <br>
+        <div class="list-group  driver-list ">
+          <div *ngFor="let bank of banks | filter:'name' :filterBank; let i = index;">
+            <div class="form-row list-group-item list-group-item-action">
+              <a class="name-action col-md-3 ">{{bank.name}}</a>
+              <span class="col-md-3">
+            <a data-toggle="modal" data-target="#addmodal" class="actions-edit actions"
+               (click)="editBank(bank);formName = 'Bank';formAction = 'Edit'">Edit </a>
+            <a class="actions" (click)="deleteBank(bank)"> Delete</a>
+          </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!--  Expense List-->
+  <div class="col-md-3">
+    <div class="container">
+      <div class="box-driver">
+        <div class="form-row">
+          <div class="col-md-3 col-6">
+            <button data-toggle="modal" data-target="#addmodal" (click)="formAction = 'Add';formName = 'Expense'"
+                    type="button" class="btn-sm btn-secondary">Add Expense
+            </button>
+          </div>
+          <div class="col-md-4 col-6">
+            <h5>Expenses</h5>
+          </div>
+          <br><br>
+          <input type="text" class="form-control col-md-3 col-sm-1" placeholder="Search"
+                 [(ngModel)]="filterExpense">
+        </div>
+        <br>
+        <div class="list-group  driver-list ">
+          <div *ngFor="let expense of expenses | filter:'name' :filterExpense; let i = index;">
+            <div class="form-row list-group-item list-group-item-action">
+              <a class="name-action col-md-3 ">{{expense.name}}</a>
+              <span class="col-md-3">
+            <a data-toggle="modal" data-target="#addmodal" class="actions-edit actions"
+               (click)="editExpense(expense);formName = 'Expense';formAction = 'Edit'">Edit </a>
+            <a class="actions" (click)="deleteExpense(expense)"> Delete</a>
+          </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!--  Card List-->
+  <div class="col-md-3">
+    <div class="container">
+      <div class="box-driver">
+        <div class="form-row">
+          <div class="col-md-3 col-6">
+            <button data-toggle="modal" data-target="#addmodal" (click)="formAction = 'Add';formName = 'Card'"
+                    type="button" class="btn-sm btn-secondary">Add Card
+            </button>
+          </div>
+          <div class="col-md-4 col-6">
+            <h5>Cards</h5>
+          </div>
+          <br><br>
+          <input type="text" class="form-control col-md-3 col-sm-1" placeholder="Search"
+                 [(ngModel)]="filterCard">
+        </div>
+        <br>
+        <div class="list-group  driver-list ">
+          <div *ngFor="let card of cards | filter:'name' :filterCard; let i = index;">
+            <div class="form-row list-group-item list-group-item-action">
+              <a class="name-action col-md-3 ">{{card.name}}</a>
+              <span class="col-md-3">
+            <a data-toggle="modal" data-target="#addmodal" class="actions-edit actions"
+               (click)="editCard(card);formName = 'Card';formAction = 'Edit'">Edit </a>
+            <a class="actions" (click)="deleteCard(card)"> Delete</a>
+          </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="addmodal" tabindex="1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{formAction}} {{formName}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #Form="ngForm" (ngSubmit)="add(Form)">
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" required class="form-control" name="name" [(ngModel)]="name">
+          </div>
+          <div *ngIf="formName=='Bank'" class="form-group">
+            <label>Account Number</label>
+            <input type="text" required class="form-control" name="accountNo" [(ngModel)]="accountNo">
+          </div>
+          <div *ngIf="formName=='Card'" class="form-group">
+            <label>Cost</label>
+            <input type="number" required class="form-control" name="cost" [(ngModel)]="cost">
+          </div>
+          <div *ngIf="formName=='Card'" class="form-group">
+            <label>Item</label>
+            <input type="number" required class="form-control" name="item" [(ngModel)]="item">
+          </div>
+          <div *ngIf="formName=='Card'" class="form-group">
+            <label>Sale</label>
+            <input type="number" required class="form-control" name="sale" [(ngModel)]="sale">
+          </div>
+          <div hidden class="form-group">
+            <label>Id</label>
+            <input  class="form-control" name="id" [(ngModel)]="id">
+          </div>
+
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" [disabled]="Form.invalid || Form.pending"
+                    class="btn btn-primary">Save changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<button type="button" id="modalToggle" hidden data-toggle="modal" data-target="#addmodal">
+</button>

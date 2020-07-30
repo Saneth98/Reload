@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="login-box">
+
+    <h2>SignUp</h2>
+    <form>
+      <div class="form-group">
+        <label for="email">Email: <span class="error">{{error}}</span></label>
+        <input required #signUpEmail type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+      </div>
+      <div class="form-group">
+        <label for="pwd">Password:</label>
+        <input required #signUpPassword type="password" class="form-control" id="pwd" placeholder="Enter password"
+               name="pswd">
+      </div>
+      <div class="form-group">
+        <label for="pwdre">Confirm Password:</label>
+        <input required #signUpPasswordRe type="password" class="form-control" id="pwdre" placeholder="Enter password"
+               name="pswd">
+      </div>
+        <button type="button"
+              (click)="signUp(signUpEmail.value, signUpPassword.value, signUpPasswordRe.value)"
+              class="btn btn-primary">Submit
+      </button>
+    </form>
+  </div>
+</div>

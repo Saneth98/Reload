@@ -1,0 +1,29 @@
+.box-driver {
+  padding: 5%;
+  margin-top: 5%;
+  border-radius: 10px;
+  box-shadow: 0 12px 15px 0 rgba(0, 0, 0, .24), 0 17px 50px 0 rgba(0, 0, 0, .19)
+}
+.actions{
+  color: red;
+}
+.actions-edit{
+  color: green;
+}
+
+.actions:hover{
+  text-decoration: underline;
+  cursor: pointer;
+}
+.name-action:hover{
+  cursor: pointer;
+  text-decoration: underline;
+  color: blue;
+}
+.driver-list{
+  height: 250px;
+  overflow: auto;
+  border-style: solid;
+  border-width: 1.5px;
+  border-color: black;
+}

@@ -1,0 +1,55 @@
+<html>
+<body>
+
+<!--<nav class="navbar navbar-expand navbar-dark bg-dark">-->
+<nav class="navbar navbar-expand-sm  navbar-dark bg-dark">
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar1">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbar1">
+  <ul class="navbar-nav mr-auto">
+
+    <!-- Admin only -->
+    <li class="nav-item" data-toggle="collapse" data-target="#navbar1" *ngIf="isAdmin">
+      <a class="nav-link"   [routerLink]="['admin', 'panel']">Dashboard</a>
+    </li>
+    <li class="nav-item" data-toggle="collapse" data-target="#navbar1" *ngIf="isAdmin">
+      <a class="nav-link" [routerLink]="['admin', 'driver']">Drivers</a>
+    </li>
+    <li class="nav-item" data-toggle="collapse" data-target="#navbar1" *ngIf="isAdmin">
+      <a class="nav-link" [routerLink]="['admin', 'stocks']">Stocks</a>
+    </li>
+    <li class="nav-item" data-toggle="collapse" data-target="#navbar1" *ngIf="isAdmin">
+      <a class="nav-link" [routerLink]="['admin', 'data']">Data and Information</a>
+    </li>
+
+    <!-- Anonymous only -->
+    <li class="nav-item" data-toggle="collapse" data-target="#navbar1" *ngIf="!isAuthorized">
+      <a class="nav-link" [routerLink]="['login']">Login</a>
+    </li>
+
+    <!-- Authorized only -->
+    <li class="nav-item" data-toggle="collapse" data-target="#navbar1" *ngIf="isAuthorized">
+      <a i18n="@@navLogout" class="nav-link" (click)="logout()">Logout</a>
+    </li>
+  </ul>
+  </div>
+  <span class="navbar-text">
+      <span class="badge badge-danger" *ngIf="isAdmin">Admin</span> &nbsp;
+      <span class="badge badge-warning" *ngIf="isAuthorized">{{name}}</span>
+    </span>
+</nav>
+
+<div class="container-fluid site">
+  <router-outlet></router-outlet>
+</div>
+
+
+</body>
+<!--<footer class=" bg-dark fixed-bottom1 mt-auto py-3">-->
+<!--  <div class="container">-->
+<!--    <span class="text-muted">Place sticky footer content here.</span>-->
+<!--  </div>-->
+<!--</footer>-->
+</html>

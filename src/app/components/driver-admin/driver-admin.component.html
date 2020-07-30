@@ -1,0 +1,96 @@
+<div class="container">
+  <div class="box-driver">
+    <div class="form-row">
+      <div class="col-md-2 col-6">
+        <button data-toggle="modal" data-target="#driverAddModal" (click)="formAction = 'Add'"
+                type="button" class="btn-sm btn-secondary">Add Driver
+        </button>
+      </div>
+      <div class="col-md-2 col-6">
+        <h5>Drivers List</h5>
+      </div>
+      <br><br>
+      <input type="text" class="form-control col-md-5 col-sm-1" placeholder="Enter Name to Search"
+             [(ngModel)]="filterName">
+    </div>
+    <br>
+    <div class="list-group  driver-list ">
+      <div *ngFor="let driver of drivers | filter:'name' :filterName; let i = index;">
+        <div class="form-row list-group-item list-group-item-action">
+          <a (click)="selectedDriver(driver.name)" class="name-action col-md-3 ">{{driver.name}}</a>
+          <span class="col-md-3">
+            <a data-toggle="modal" data-target="#driverAddModal" class="actions-edit actions" (click)="editDriver(driver)">Edit </a>
+            <a class="actions" (click)="deleteDriver()"> Delete</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+<div class="box-driver-table" [hidden]="!sales">
+  <h6>Driver {{driverName}}</h6>
+<table  class="table table-responsive{-sm}  table-bordered">
+  <thead>
+  <tr>
+    <th scope="col">SaleId</th>
+    <th scope="col">Driver Name</th>
+    <th scope="col">Date</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor=" let sale of sales; let i=index">
+    <td>{{sale.id}}</td>
+    <td>{{sale.driverName}}</td>
+    <td>{{sale.id}}</td>
+  </tr>
+  </tbody>
+</table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="driverAddModal" tabindex="1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{formAction}} Driver</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #driverForm="ngForm" (ngSubmit)="addDriver(driverForm)">
+          <div class="form-group">
+            <label>Driver Name</label>
+            <input type="text" required class="form-control" name="driverName" [(ngModel)]="driverName">
+          </div>
+          <div class="form-group">
+            <label>Driver NIC</label>
+            <input type="text" required class="form-control" name="driverNic" [(ngModel)]="driverNic">
+          </div>
+          <div class="form-group">
+            <label>City</label>
+            <select required [(ngModel)]="driverCity" name="district" class="form-control">
+              <option *ngFor="let district of districts; let i = index">{{district}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Driver Email</label>
+            <input type="email" class="form-control" required name="driverEmail" [(ngModel)]="driverEmail">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" [disabled]="driverForm.invalid || driverForm.pending"
+                    class="btn btn-primary">Save changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<button type="button" id="btntoggle" hidden data-toggle="modal" data-target="#driverAddModal">
+</button>
